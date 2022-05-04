@@ -1,0 +1,32 @@
+- hosts: all
+  user: root
+  become: True
+  tasks:
+    - name: Install a list of packages with a list variable
+      yum:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+           - httpd
+           - telnet
+           - net-tools
+           - zip
+           - vim
+
+    - name: service restart
+      service:
+          name: httpd
+          state: started
+          enabled: yes
+          name: httpd
+          state: restarted
+    - name: Creating an empty file
+      copy:
+        dest: "/tmp/Test-file"
+        content:
+            Hello World!!!!
+            Welcome Ansible Learning
+        mode: 0754
+        owner: ansible
